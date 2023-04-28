@@ -59,7 +59,8 @@
     display: none;
 }
 
-.user-menu:hover .show-hover{
+.user-menu:hover .show-hover,
+.user-menu.active .show-hover{
     display: block;
 }
 
@@ -72,7 +73,8 @@
         display: none;
     }
 
-    .user-menu:hover .user-profile__title{
+    .user-menu:hover .user-profile__title,
+    .user-menu.active .user-profile__title{
         display: block;
     }
 

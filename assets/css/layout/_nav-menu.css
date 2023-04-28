@@ -18,7 +18,7 @@
     color: #fff;
 }
 .nav-menu__link{
-    padding: 3.2rem 2rem;
+    padding: 3.2rem 1.6rem;
 
 }
 .nav-menu__text,
@@ -48,7 +48,8 @@
     position: relative;
     cursor: pointer;
 }
-.nav-menu__item.dropdown:hover .nav-submenu{
+.nav-menu__item.dropdown:hover .nav-submenu, 
+.nav-menu__item.dropdown .nav-submenu.active{
     display: block;
 }
 
