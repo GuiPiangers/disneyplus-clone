@@ -2,6 +2,10 @@
 @import url('./base/_reset.css');
 @import url('./base/_global.css');
 
+/* Style layout */
+@import url('./layout/__header.css');
+@import url('./layout/__nav-menu.css');
+
 /* Style components */
-@import url(./components/__logo.css);
+@import url('./components/__logo.css');
 
