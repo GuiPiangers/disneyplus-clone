@@ -57,7 +57,7 @@
     display: none;
     position: absolute;
     top: 6rem;
-    left: -12rem;
+    left: 0rem;
     width: 15rem;
     background-color: #141414;
     border: 0.1rem solid #393939;
@@ -67,7 +67,7 @@
     padding: 1.6rem;
     width: 100%;
 }
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1124px) {
     .nav-menu{
         margin-left: 2.5rem;
         padding-bottom: 1rem;
@@ -85,5 +85,12 @@
     .nav-menu__item.dropdown{
         font-size: 1.6rem;
         padding: 2.8rem 1.6rem;
+    }
+}
+
+@media screen and (max-width:680px){
+    .nav-submenu{
+    left: -12rem;
+
     }
 }
