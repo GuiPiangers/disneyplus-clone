@@ -1,0 +1,65 @@
+.banners{
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-top: 9.6rem;
+}
+
+.banner-slide{
+    display: flex;
+    overflow: hidden;
+}
+
+.banner-slide__item{
+    margin: 0 1rem 1rem 3rem;
+    padding-bottom: 3rem;
+    width: 90vw;
+    flex-shrink: 0;
+}
+
+.banner-slide__image{
+    border-radius: 0.4rem;
+    width: 100%;
+    box-shadow: 0 2rem 3rem -1rem rgba(0, 0, 0, 0.7);
+}
+
+.banner-slide__link{
+    display: block;
+    position: relative;
+}
+
+.banner-slide__link::before{
+    content: "";
+    position: absolute;
+    border: 0.2rem solid rgba(255, 255, 255, 0);    
+    border-radius: 0.4rem;
+    height: 100%;
+    width: 100%;
+    transition: 0.3s;
+}
+.banner-slide__link:hover::before{
+    border-color: rgba(255, 255, 255, 0.7);
+}
+
+.banner-slide__title{
+    display: block;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.banners .arrow-slider--left {
+    position: absolute;
+    left: 1.6vw;
+
+}
+.banners .arrow-slider--right {
+    position: absolute;
+    right: 1.6vw;
+}
+
+.banners .controls-slider{
+    bottom: 5.6rem;
+    right: 6.8vw;
+}
