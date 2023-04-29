@@ -17,4 +17,5 @@
 
 /* Style pages */
 @import url('./pages/home/_banners.css');
+@import url('./pages/home/_category.css')
 
