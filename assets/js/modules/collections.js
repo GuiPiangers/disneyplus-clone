@@ -35,11 +35,30 @@ function animateTransition(active){
     }
 }
 
+function activeCurrentItems(){
+    const { carouselItems, state } = arrayCollectionData[currentCollectionIndex]
+    carouselItems.forEach((item, itemIndex) =>{
+        const firstItemIndex = state.currentSlideIndex * itemsperSlide
+        item.classList.remove('active')
+        if(itemIndex >= firstItemIndex && itemIndex < firstItemIndex + itemsperSlide){
+        item.classList.add('active')            
+        }
+    })
+}
+
+function setArrowButtonsDisplay(){
+    const { btnPrevious, btnNext, state} = arrayCollectionData[currentCollectionIndex]
+    btnPrevious.style.display = state.currentSlideIndex === 0 ? 'none' : 'block'
+    btnNext.style.display = state.currentSlideIndex === (getLastSlideIndex()) ? 'none' : 'block'
+}
+
 function setVisibleSlide(slideIndex){
     const { state } = arrayCollectionData[currentCollectionIndex]
-
-    state.currentSlideIndex = slideIndex
     const traslatePosition = getTranslatePosition(slideIndex)
+    
+    state.currentSlideIndex = slideIndex
+    activeCurrentItems()
+    setArrowButtonsDisplay()
     animateTransition(true)
     translateSlide(traslatePosition)
 }
@@ -92,9 +111,6 @@ function onMouseUp(event){
     const minToChangeSlide = event.type.includes('touch') ? 50 : 150
     const { state } = arrayCollectionData[currentCollectionIndex]
 
-    const item = event.currentTarget
-    item.removeEventListener('mousemove', onMouseMove)
-
     if(state.movement > minToChangeSlide){
         backwardSlide()
     }
@@ -104,6 +120,10 @@ function onMouseUp(event){
     else{
         setVisibleSlide(state.currentSlideIndex)
     }
+    state.movement = 0
+    const item = event.currentTarget
+    item.removeEventListener('mousemove', onMouseMove)
+
 }
 function onMouseLeave(event){
     const item = event.currentTarget

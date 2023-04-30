@@ -16,6 +16,10 @@
     position: relative;
     width: 90vw;
     flex-shrink: 0;
+    opacity: 0.5;
+}
+.banner-slide__item.active{
+    opacity: 1;
 }
 
 .banner-slide__image{
@@ -54,14 +58,17 @@
     display: block;
 }
 
-.banners .arrow-slider--left {
+.banners .arrow-slider{
     position: absolute;
-    left: 1.6vw;
+    padding: 0 1.6vw;
 
 }
+
+.banners .arrow-slider--left {
+    left: 0;
+}
 .banners .arrow-slider--right {
-    position: absolute;
-    right: 1.6vw;
+    right: 0;
 }
 
 .banners .controls-slider{
