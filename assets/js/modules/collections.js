@@ -1,36 +1,32 @@
-const carouselList = document.querySelector('[data-carousel="list"]')
-const carouselItems = document.querySelectorAll('[data-carousel="item"]')
-const btnPrevious = document.querySelector('[data-carousel="btn-previous"]')
-const btnNext = document.querySelector('[data-carousel="btn-next"]')
-
-const state = {
-    mouseDownPosition: 0,
-    movement:0,
-    lastTranslatePosition: 0,
-    currentSlidePosition: 0,
-    currentItemIndex: 0,
-    currentSlideIndex: 0
-}
+const collections = document.querySelectorAll('[data-carousel="collection"]')
+const arrayCollectionData = []
+let currentCollectionIndex = 0
+let itemsperSlide = 5 
 
 function preventDefault(event){
     event.preventDefault()
 }
 
 function translateSlide(position){
+    const { state, carouselList } = arrayCollectionData[currentCollectionIndex]
     state.lastTranslatePosition = position
     carouselList.style.transform = `translateX(${position}px)`
 }
 
 function getTranslatePosition(slideIndex){
+    const { state, carouselItems } = arrayCollectionData[currentCollectionIndex]
+
     const item = carouselItems[state.currentItemIndex]
     const itemWidth = item.offsetWidth
     const bodyWidth = document.body.clientWidth
-    const slideWidth = itemWidth * 5
+    const slideWidth = itemWidth * itemsperSlide
     const margin = (bodyWidth - slideWidth) / 2
     return margin - (slideWidth * slideIndex)
 }
 
 function animateTransition(active){
+    const { carouselList } = arrayCollectionData[currentCollectionIndex]
+
     if(active){
         carouselList.style.transition = 'transform 0.3s'
     }
@@ -40,16 +36,25 @@ function animateTransition(active){
 }
 
 function setVisibleSlide(slideIndex){
+    const { state } = arrayCollectionData[currentCollectionIndex]
+
     state.currentSlideIndex = slideIndex
     const traslatePosition = getTranslatePosition(slideIndex)
     animateTransition(true)
     translateSlide(traslatePosition)
 }
 
-function forwardSlide(){
+function getLastSlideIndex(){
+    const { carouselItems } = arrayCollectionData[currentCollectionIndex]
+
     const lastItemIndex = carouselItems.length - 1
-    const lastSlideIndex = Math.floor(lastItemIndex / 5)
-    if(state.currentSlideIndex < lastSlideIndex){
+    return Math.floor(lastItemIndex / itemsperSlide)
+}
+
+function forwardSlide(){
+    const { state } = arrayCollectionData[currentCollectionIndex]
+
+    if(state.currentSlideIndex < getLastSlideIndex()){
         setVisibleSlide(state.currentSlideIndex + 1)
     }
     else{
@@ -57,6 +62,8 @@ function forwardSlide(){
     }
 }
 function backwardSlide(){
+    const { state } = arrayCollectionData[currentCollectionIndex]
+
     if(state.currentSlideIndex > 0){
         setVisibleSlide(state.currentSlideIndex - 1)
     }
@@ -66,27 +73,32 @@ function backwardSlide(){
 }
 
 function onMouseMove(event){
+    const { state } = arrayCollectionData[currentCollectionIndex]
     const position = event.clientX - state.currentSlidePosition
     state.movement = event.clientX - state.mouseDownPosition
     translateSlide(position)
 }
-function onMouseDown(event, index){
+function onMouseDown(event, itemIndex){
+    const { state } = arrayCollectionData[currentCollectionIndex]
     state.currentSlidePosition = event.clientX - state.lastTranslatePosition
     state.mouseDownPosition = event.clientX
-    state.currentItemIndex = index
+    state.currentItemIndex = itemIndex
     const item = event.currentTarget
 
     animateTransition(false)
     item.addEventListener('mousemove', onMouseMove)
 }
 function onMouseUp(event){
+    const minToChangeSlide = event.type.includes('touch') ? 50 : 150
+    const { state } = arrayCollectionData[currentCollectionIndex]
+
     const item = event.currentTarget
     item.removeEventListener('mousemove', onMouseMove)
 
-    if(state.movement > 150){
+    if(state.movement > minToChangeSlide){
         backwardSlide()
     }
-    else if(state.movement < -150){
+    else if(state.movement < -minToChangeSlide){
         forwardSlide()
     }
     else{
@@ -98,25 +110,108 @@ function onMouseLeave(event){
     item.removeEventListener('mousemove', onMouseMove)
 }
 
-function setListeners(){
-    carouselItems.forEach((item, index) =>{
+function onTouchMove(event){
+    event.clientX = event.touches[0].clientX
+    onMouseMove(event)
+}
+
+function onTouchStart(event, itemIndex){
+    const item = event.currentTarget
+    event.clientX = event.touches[0].clientX
+    onMouseDown(event, itemIndex)
+    item.addEventListener('touchmove', onTouchMove)
+}
+
+function onTouchEnd(event){
+    const item = event.currentTarget
+    item.removeEventListener('mousemove', onMouseMove)
+    onMouseUp(event)
+}
+
+function insertColletionData(collection){
+    arrayCollectionData.push({
+        carouselList: collection.querySelector('[data-carousel="list"]'),
+        carouselItems: collection.querySelectorAll('[data-carousel="item"]'),
+        btnPrevious: collection.querySelector('[data-carousel="btn-previous"]'),
+        btnNext: collection.querySelector('[data-carousel="btn-next"]'),
+        state: {
+            mouseDownPosition: 0,
+            movement:0,
+            lastTranslatePosition: 0,
+            currentSlidePosition: 0,
+            currentItemIndex: 0,
+            currentSlideIndex: 0
+        }        
+    })
+}
+
+function setItemsPerSlide(){
+    if(document.body.clientWidth < 600){
+        itemsperSlide = 2
+        return
+    }
+    if(document.body.clientWidth < 1024){
+        itemsperSlide = 3
+        return
+    }
+
+    itemsperSlide = 5
+}
+
+function setWindowResizeListener(){
+    let resizeTimeOut
+    window.addEventListener('resize', event =>{
+        clearTimeout(resizeTimeOut)
+        resizeTimeOut = setTimeout(()=>{
+            setItemsPerSlide()
+            collections.forEach((_, collectionIndex) =>{
+                currentCollectionIndex = collectionIndex
+                setVisibleSlide(0)
+            })
+        }, 500)       
+    })
+}
+
+function setListeners(collectionIndex){
+    const { btnNext, btnPrevious, carouselItems } = arrayCollectionData[collectionIndex]
+    carouselItems.forEach((item, itemIndex) =>{
         const link = item.querySelector('a')
 
         link.addEventListener('click', preventDefault)
         item.addEventListener('dragstart', preventDefault)
+        item.addEventListener('selectstart', preventDefault)
         item.addEventListener('mousedown', (event)=>{
-            onMouseDown(event, index)
+        currentCollectionIndex = collectionIndex
+            onMouseDown(event, itemIndex)
         })
         item.addEventListener('mouseup', onMouseUp)
         item.addEventListener('mouseleave', onMouseLeave)
+        item.addEventListener('touchstart', (event)=>{
+            currentCollectionIndex = collectionIndex
+            onTouchStart(event, itemIndex)
+        })
+        item.addEventListener('touchend', onTouchEnd)
     })
-    btnNext.addEventListener('click', forwardSlide)
-    btnPrevious.addEventListener('click', backwardSlide)
+    btnNext.addEventListener('click', ()=>{
+        currentCollectionIndex = collectionIndex
+        forwardSlide()
+    })
+    btnPrevious.addEventListener('click', ()=>{
+        currentCollectionIndex = collectionIndex        
+        backwardSlide()
+    })
 }
 
 function init(){
-    setListeners()
-    setVisibleSlide(0)
+    setItemsPerSlide()
+    setWindowResizeListener()
+    collections.forEach((collection, collectionIndex) => {
+        currentCollectionIndex = collectionIndex
+        insertColletionData(collection)
+        setListeners(collectionIndex)
+        setVisibleSlide(0)
+    })
+
 }
 
 export default {

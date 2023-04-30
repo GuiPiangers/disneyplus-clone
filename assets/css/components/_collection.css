@@ -70,3 +70,14 @@
     position: absolute;
     right: 1.6vw;
 }
+
+@media screen and (min-width:600px) and (max-width: 1024px) {
+    .movie-carousel__item{
+        width: calc(90vw/3);
+    }    
+}
+@media screen and (max-width: 600px) {
+    .movie-carousel__item{
+        width: calc(90vw/2);
+    }    
+}

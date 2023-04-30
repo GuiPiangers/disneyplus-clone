@@ -173,7 +173,7 @@ function setListeners(){
 
 
 function init(){
-    setVisibleSlide(1)
+    setVisibleSlide(0)
     setListeners()
 }
 
