@@ -11,7 +11,7 @@
 
 .category-menu__item{
     position: relative;
-    box-shadow: 0 2rem 3rem -1rem rgba(0, 0, 0, 0.7);
+    box-shadow: 0 2rem 3rem -1rem rgba(0, 0, 0, 0.4);
     transition: transform 0.3s;
     overflow: hidden;
 }
@@ -52,6 +52,6 @@
 
 @media screen and (max-width: 1024px) {
     .category-menu__link{
-        box-shadow: 0rem 2rem 1rem -1rem rgba(0, 0, 0, 0.7);
+        box-shadow: 0rem 2rem 1rem -1rem rgba(0, 0, 0, 0.4);
     }
 }
