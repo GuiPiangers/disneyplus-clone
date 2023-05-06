@@ -1,0 +1,97 @@
+
+
+.nav-menu{
+    margin-left: 3.6rem;
+}
+
+.nav-menu__item{
+    display: inline;
+}
+
+.nav-menu__link, 
+.nav-submenu__link, 
+.nav-menu__item.dropdown{
+    display: inline-block;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    color: #fff;
+}
+.nav-menu__link{
+    padding: 3.2rem 1.6rem;
+
+}
+.nav-menu__text,
+.nav-submenu__text{
+    margin-left: 1.2rem;
+    position: relative;
+}
+
+.nav-menu__text::before,
+.nav-submenu__text::before{
+    content: "";
+    position: absolute;
+    bottom:-0.8rem;
+    height: 0.2rem;
+    width: 0%;
+    transition: 250ms;
+    background-color: #fff;
+}
+
+.nav-menu__item:hover .nav-menu__text::before,
+.nav-submenu__item:hover .nav-submenu__text::before{
+    width: 100%;
+}
+
+.nav-menu__item.dropdown{
+    display: none;
+    position: relative;
+    cursor: pointer;
+}
+.nav-menu__item.dropdown:hover .nav-submenu, 
+.nav-menu__item.dropdown .nav-submenu.active{
+    display: block;
+}
+
+.nav-submenu{
+    animation: showFade 0.5s;
+    display: none;
+    position: absolute;
+    top: 6rem;
+    left: 0rem;
+    width: 15rem;
+    background-color: #141414;
+    border: 0.1rem solid #393939;
+    border-radius: 0.5rem;
+}
+.nav-submenu__link{
+    padding: 1.6rem;
+    width: 100%;
+}
+@media screen and (max-width: 1124px) {
+    .nav-menu{
+        margin-left: 2.5rem;
+        padding-bottom: 1rem;
+    }
+    .nav-menu__text{
+        display: none;
+    }
+    .mobile-hidden{
+        display: none;
+    }
+    .nav-menu__item.dropdown{
+        display: inline;
+    }
+    .nav-menu__link, 
+    .nav-menu__item.dropdown{
+        font-size: 1.6rem;
+        padding: 2.8rem 1.6rem;
+    }
+}
+
+@media screen and (max-width:680px){
+    .nav-submenu{
+    left: -12rem;
+
+    }
+}

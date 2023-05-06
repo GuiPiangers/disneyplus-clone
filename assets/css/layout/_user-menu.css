@@ -1,0 +1,85 @@
+.user-menu{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.user-menu__background{
+    animation: slideDown 0.3s;
+    z-index: 1;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border: 1px solid #393939;
+    border-radius: 0.6rem;
+    background-color: #141414;
+}
+
+.user-menu__current-profile{
+    padding: 1.2rem 2rem;
+}
+
+.user-menu__profiles{
+    border-top: 1px solid  #393939;
+    margin: 0 2rem;
+    padding-top: 1.1rem;
+}
+
+.user-menu__profiles .user-menu__item{
+    padding: 0.7rem;
+}
+.user-menu__options{
+    padding-bottom: 2rem;
+}
+.user-menu__options .user-menu__link{
+    display: inline-block;
+    padding: 1.3rem 2rem;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: #c3c3c3;
+}
+.user-menu__current-profile, 
+.user-menu__profiles,
+.user-menu__options{
+    position: relative;
+    z-index: 2;
+}
+.user-menu__profiles,
+.user-menu__options{
+    animation: showFade 0.5s;
+}
+
+.user-menu__link:hover{
+    color: #fff;
+}
+
+
+
+.user-menu .show-hover{
+    display: none;
+}
+
+.user-menu:hover .show-hover,
+.user-menu.active .show-hover{
+    display: block;
+}
+
+@media screen and (max-width: 1024px) {
+    .user-menu__current-profile{
+        padding-top: 2.2rem;
+    }
+    .user-menu .user-profile__title{
+        animation: showFade 0.3s;
+        display: none;
+    }
+
+    .user-menu:hover .user-profile__title,
+    .user-menu.active .user-profile__title{
+        display: block;
+    }
+
+    .user-menu .user-profile__avatar{
+        height: 3.6rem;
+        width: 3.6rem;
+    }
+}

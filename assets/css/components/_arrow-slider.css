@@ -1,0 +1,16 @@
+.arrow-slider{
+    font-size: 2.6rem;
+    background: none;
+    height: 100%;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0;
+    transition: 0.3s;
+    z-index: 2;
+}
+
+.arrow-slider:hover{
+    opacity: 1;    
+}
+
+
